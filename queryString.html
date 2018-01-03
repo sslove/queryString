@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<link style="text/css" rel="stylesheet" href="css/common.css"/>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<input type="text" placeholder="输入url"/>
+<input type="button" value="解析"/>
+<script>
+	var aInput=document.getElementsByTagName("input");
+	aInput[1].onclick=function(){
+		queryString(aInput[0].value)
+	}
+
+
+	function queryString(obj){
+        var index=obj.indexOf("://");
+        var obj1=obj.substring(index+3);
+        var str1=obj1.substring(0);
+        // alert(str1);
+        var index1=str1.indexOf(":");
+        var index2=str1.indexOf("/");
+        var index3=str1.lastIndexOf("/");
+        var index4=str1.indexOf("?");
+        var index5=str1.indexOf("#");
+        var str=obj.substring(0,index);
+        var yuming="";
+        var dukou="";
+        var mulu="";
+        var wenjian="";
+        var mao="";
+        var cankao="";
+
+        //域名
+        if(index1!=-1){
+           yuming=str1.substring(0,index1);
+        }else if(index2!=-1){
+          yuming=str1.substring(0,index2);
+        }else if(index4!=-1){
+          yuming=str1.substring(0,index4);
+        }else if(index5!=-1){
+          yuming=str1.substring(0,index5);
+        }else if(index1==-1&&index2==-1&&index4==-1&&index5==-1&&str1!==""){
+          yuming=str1;
+        }else{
+          yuming="";
+        }
+        //端口
+        if(index1==-1){
+           dukou="默认值"
+        }else if(index1!=-1&&index2==-1){
+           dukou=str1.substring(index1+1);
+        }else if(index1!=-1&&index2!=-1){
+          dukou=str1.substring(index1+1,index2);
+        }
+
+       //虚拟目录
+        if(index2==-1&&index3==-1||index2==index3){
+        	mulu="默认值";
+        }else{
+        	mulu=str1.substring(index2+1,index3);
+        }
+      //文件名
+        if(index3!=-1&&index4!=-1){
+        	 wenjian=str1.substring(index3+1,index4)
+        }else if(index3!=-1&&index4==-1&&index5!=-1){
+           wenjian=str1.substring(index3+1,index5);
+        }else if(index3!=-1&&index4==-1&&index5==-1){
+           wenjian=str1.substring(index3+1);
+        }
+        //锚
+       if(index5==-1){
+       	  mao="无";
+       }else{
+       	 mao=str1.substring(index5+1);
+       }
+       //参数
+       if(index4!=-1&&index5!=-1){
+       	cankao=str1.substring(index4+1,index5)
+       }
+      // 判断url是否正确
+         if(zimu(str)==-1||index==-1||yuming==""){
+          alert("url is false")
+        }else{
+           alert("协议:"+str+";"+"域名:"+yuming+";"+"端口:"+dukou+";"+"虚拟目录:"+mulu+";"+"文件名"+wenjian+";"+"锚:"+mao+";"+"参数:"+cankao+";");
+        }
+
+       function zimu(zm){
+       for(var i=0;i<zm.length;i++){
+        	if(zm.toLowerCase().charCodeAt(i)>=97&&zm.toLowerCase().charCodeAt(i)<=122){
+                return 1
+        	}else{
+        		return -1
+        	}
+        	
+        }
+     }
+        
+      
+      
+       
+	}
+</script>
+</body>
+</html>
